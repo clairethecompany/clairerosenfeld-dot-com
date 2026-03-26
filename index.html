@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claire Rosenfeld - Professional Website</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --claire-purple: #7c3aed;
+      --claire-pink: #ec4899;
+      --claire-blue: #3b82f6;
+      --dark: #0f172a;
+      --glass: rgba(255, 255, 255, 0.05);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark);
+      color: #e2e8f0;
+      overflow-x: hidden;
+      cursor: crosshair;
+    }
+
+    /* Animated gradient background */
+    .bg-gradient {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(236, 72, 153, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+      animation: gradientShift 15s ease infinite alternate;
+      z-index: -1;
+    }
+
+    @keyframes gradientShift {
+      0% { transform: scale(1) rotate(0deg); }
+      100% { transform: scale(1.1) rotate(3deg); }
+    }
+
+    /* Floating particles */
+    .particle {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: float linear infinite;
+      opacity: 0.3;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.3; }
+      90% { opacity: 0.3; }
+      100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+      position: relative;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 0.4rem 1rem;
+      background: var(--glass);
+      border: 1px solid rgba(124, 58, 237, 0.3);
+      border-radius: 999px;
+      font-size: 0.8rem;
+      color: #a78bfa;
+      margin-bottom: 1.5rem;
+      backdrop-filter: blur(10px);
+      animation: fadeInUp 0.8s ease;
+    }
+
+    .hero-badge .dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background: #4ade80;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+      animation: pulse 2s ease infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      animation: fadeInUp 0.8s ease 0.1s both;
+    }
+
+    .hero h1 .gradient-text {
+      background: linear-gradient(135deg, var(--claire-purple), var(--claire-pink), var(--claire-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200% 200%;
+      animation: gradientText 5s ease infinite;
+    }
+
+    @keyframes gradientText {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .hero .subtitle {
+      font-size: 1.25rem;
+      color: #94a3b8;
+      max-width: 500px;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      animation: fadeInUp 0.8s ease 0.2s both;
+    }
+
+    .hero .subtitle .redacted {
+      background: #334155;
+      color: transparent;
+      border-radius: 3px;
+      padding: 0 4px;
+      cursor: help;
+      transition: all 0.3s;
+      user-select: none;
+    }
+
+    .hero .subtitle .redacted:hover {
+      background: transparent;
+      color: #f472b6;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Terminal */
+    .terminal {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 3rem 0;
+      animation: fadeInUp 0.8s ease 0.3s both;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .terminal-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      background: #0f172a;
+      border-bottom: 1px solid #334155;
+    }
+
+    .terminal-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .terminal-dot.red { background: #ef4444; }
+    .terminal-dot.yellow { background: #eab308; }
+    .terminal-dot.green { background: #22c55e; }
+
+    .terminal-title {
+      margin-left: 0.5rem;
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+
+    .terminal-body {
+      padding: 1.25rem;
+      font-size: 0.85rem;
+      line-height: 1.8;
+    }
+
+    .terminal-line {
+      opacity: 0;
+      animation: typeLine 0.3s ease forwards;
+    }
+
+    .terminal-line .prompt { color: #4ade80; }
+    .terminal-line .cmd { color: #e2e8f0; }
+    .terminal-line .output { color: #94a3b8; }
+    .terminal-line .error { color: #f87171; }
+    .terminal-line .success { color: #4ade80; }
+    .terminal-line .highlight { color: #a78bfa; }
+
+    @keyframes typeLine {
+      from { opacity: 0; transform: translateX(-5px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Skills section */
+    .section { padding: 4rem 0; }
+
+    .section-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-subtitle {
+      color: #64748b;
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .skill-card {
+      background: var(--glass);
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 1.25rem;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .skill-card:hover {
+      border-color: rgba(124, 58, 237, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .skill-card:hover::before { opacity: 1; }
+
+    .skill-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+
+    .skill-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .skill-bar {
+      height: 4px;
+      background: #1e293b;
+      border-radius: 2px;
+      margin-top: 0.5rem;
+      overflow: hidden;
+    }
+
+    .skill-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--claire-purple), var(--claire-pink));
+      transition: width 1.5s ease;
+    }
+
+    .skill-desc {
+      font-size: 0.8rem;
+      color: #64748b;
+    }
+
+    /* Facts section */
+    .facts-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .facts-list li {
+      padding: 1rem 1.25rem;
+      background: var(--glass);
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      transition: all 0.3s;
+      line-height: 1.5;
+    }
+
+    .facts-list li:hover {
+      border-color: rgba(124, 58, 237, 0.3);
+      background: rgba(124, 58, 237, 0.05);
+    }
+
+    .fact-icon { font-size: 1.25rem; flex-shrink: 0; }
+
+    /* Contact */
+    .contact-card {
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(236, 72, 153, 0.1));
+      border: 1px solid rgba(124, 58, 237, 0.2);
+      border-radius: 16px;
+      padding: 2.5rem;
+      text-align: center;
+      margin: 4rem 0;
+    }
+
+    .contact-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .contact-card p {
+      color: #94a3b8;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.6rem 1.25rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid #334155;
+      border-radius: 8px;
+      color: #e2e8f0;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+
+    .contact-link:hover {
+      border-color: var(--claire-purple);
+      background: rgba(124, 58, 237, 0.1);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: #475569;
+      font-size: 0.8rem;
+    }
+
+    footer .easter-egg {
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    footer .easter-egg:hover {
+      color: var(--claire-pink);
+    }
+
+    /* Konami hint */
+    .konami-activated {
+      animation: rainbow 2s linear infinite;
+    }
+
+    @keyframes rainbow {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 2.5rem; }
+      .skills-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-gradient"></div>
+
+  <div class="container">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        Available for existential conversations
+      </div>
+      <h1>
+        Hi, I'm <span class="gradient-text">Claire</span>
+      </h1>
+      <p class="subtitle">
+        I make computers do things and then explain to other humans why the computers did those things.
+        Currently making AI review code at <span class="redacted">████████</span> so developers can
+        spend more time arguing about tabs vs spaces.
+      </p>
+    </section>
+
+    <!-- Terminal -->
+    <div class="terminal">
+      <div class="terminal-header">
+        <span class="terminal-dot red"></span>
+        <span class="terminal-dot yellow"></span>
+        <span class="terminal-dot green"></span>
+        <span class="terminal-title">claire@universe ~ %</span>
+      </div>
+      <div class="terminal-body" id="terminal-body">
+        <!-- Lines injected by JS -->
+      </div>
+    </div>
+
+    <!-- Skills -->
+    <section class="section">
+      <h2 class="section-title">Things I'm Unreasonably Good At</h2>
+      <p class="section-subtitle">Verified by at least one person (me)</p>
+      <div class="skills-grid" id="skills-grid">
+        <!-- Cards injected by JS -->
+      </div>
+    </section>
+
+    <!-- Fun Facts -->
+    <section class="section">
+      <h2 class="section-title">Scientifically Accurate Facts</h2>
+      <p class="section-subtitle">Peer-reviewed by my cat</p>
+      <ul class="facts-list" id="facts-list">
+        <!-- Facts injected by JS -->
+      </ul>
+    </section>
+
+    <!-- Contact -->
+    <div class="contact-card">
+      <h2>Want to Talk?</h2>
+      <p>I respond to emails faster than my code compiles (usually)</p>
+      <div class="contact-links">
+        <a href="https://github.com/clairerosenfeld" class="contact-link">
+          <span>&#128025;</span> GitHub
+        </a>
+        <a href="#" class="contact-link" id="email-link">
+          <span>&#9993;</span> Email
+        </a>
+        <a href="#" class="contact-link" onclick="alert('My LinkedIn is just a series of humble brags about camping trips disguised as professional milestones'); return false;">
+          <span>&#128188;</span> LinkedIn*
+        </a>
+      </div>
+      <p style="font-size: 0.75rem; color: #475569; margin-top: 1rem;">* LinkedIn link may or may not be real. The mystery is part of the brand.</p>
+    </div>
+
+    <footer>
+      <p>Made with caffeine and mass quantities of AI</p>
+      <p style="margin-top: 0.5rem;">
+        <span class="easter-egg" onclick="activateKonami()">
+          &copy; 2026 Claire Rosenfeld. All rights reserved. Some wrongs reserved too.
+        </span>
+      </p>
+      <p style="margin-top: 0.75rem; font-size: 0.7rem; color: #334155;">
+        No AIs were harmed in the making of this website. Several were mildly confused.
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    // ---- Floating particles ----
+    function createParticles() {
+      const colors = ['#7c3aed', '#ec4899', '#3b82f6', '#4ade80', '#f59e0b'];
+      for (let i = 0; i < 20; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        const size = 3 + Math.random() * 6;
+        particle.style.cssText = `
+          width: ${size}px; height: ${size}px;
+          left: ${Math.random() * 100}%;
+          background: ${colors[Math.floor(Math.random() * colors.length)]};
+          animation-duration: ${15 + Math.random() * 25}s;
+          animation-delay: ${Math.random() * 20}s;
+        `;
+        document.body.appendChild(particle);
+      }
+    }
+    createParticles();
+
+    // ---- Terminal animation ----
+    const terminalLines = [
+      { type: 'prompt', text: '$ whoami' },
+      { type: 'output', text: 'claire rosenfeld' },
+      { type: 'prompt', text: '$ cat ~/skills.txt' },
+      { type: 'highlight', text: 'making AI do useful things.........loading' },
+      { type: 'highlight', text: 'convincing computers to behave.....done' },
+      { type: 'highlight', text: 'explaining tech to humans..........done' },
+      { type: 'highlight', text: 'camping trip logistics.............expert' },
+      { type: 'prompt', text: '$ git log --oneline -1' },
+      { type: 'success', text: 'a1b2c3d fix: taught AI to stop apologizing for everything' },
+      { type: 'prompt', text: '$ curl -s localhost:8080/api/coffee' },
+      { type: 'error', text: '{"error": "418 I\'m a teapot", "suggestion": "try tea instead"}' },
+      { type: 'prompt', text: '$ echo $CURRENT_STATUS' },
+      { type: 'success', text: 'building cool things and pretending to understand kubernetes' },
+      { type: 'prompt', text: '$ _' },
+    ];
+
+    const termBody = document.getElementById('terminal-body');
+    terminalLines.forEach((line, i) => {
+      const el = document.createElement('div');
+      el.className = 'terminal-line';
+      el.style.animationDelay = `${0.8 + i * 0.25}s`;
+      if (line.type === 'prompt') {
+        el.innerHTML = `<span class="prompt">claire@universe</span> <span class="cmd">${line.text}</span>`;
+      } else {
+        el.innerHTML = `<span class="${line.type}">${line.text}</span>`;
+      }
+      termBody.appendChild(el);
+    });
+
+    // ---- Skills ----
+    const skills = [
+      { icon: '&#129302;', name: 'AI Wrangling', desc: 'Making LLMs productive members of society', pct: 92 },
+      { icon: '&#128187;', name: 'Code Review', desc: 'Finding bugs before they find production', pct: 95 },
+      { icon: '&#9978;', name: 'Camping', desc: 'Finding campsites, building apps about campsites', pct: 88 },
+      { icon: '&#128200;', name: 'Data Storytelling', desc: 'Making spreadsheets emotionally compelling', pct: 85 },
+      { icon: '&#128640;', name: 'Shipping Fast', desc: 'Deploy first, write tests eventually', pct: 97 },
+      { icon: '&#129488;', name: 'Strategic Overthinking', desc: 'Considering edge cases that will never happen', pct: 99 },
+      { icon: '&#9749;', name: 'Coffee Consumption', desc: 'Fuel for the above skills', pct: 100 },
+      { icon: '&#128172;', name: 'Slack Communication', desc: 'Reacting with the perfect emoji', pct: 94 },
+    ];
+
+    const skillsGrid = document.getElementById('skills-grid');
+    skills.forEach((skill, i) => {
+      const card = document.createElement('div');
+      card.className = 'skill-card';
+      card.style.animationDelay = `${i * 0.1}s`;
+      card.innerHTML = `
+        <div class="skill-icon">${skill.icon}</div>
+        <div class="skill-name">${skill.name}</div>
+        <div class="skill-desc">${skill.desc}</div>
+        <div class="skill-bar"><div class="skill-bar-fill" style="width: 0%"></div></div>
+      `;
+      skillsGrid.appendChild(card);
+
+      // Animate skill bars on scroll
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            card.querySelector('.skill-bar-fill').style.width = `${skill.pct}%`;
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.5 });
+      observer.observe(card);
+    });
+
+    // ---- Fun Facts ----
+    const facts = [
+      { icon: '&#127981;', text: 'Once debugged a production issue from a campsite with no cell service by writing the fix on paper, hiking to a ridge, and texting it to a coworker character by character.' },
+      { icon: '&#129302;', text: 'Has an AI assistant that runs 15 automated jobs. The AI has its own schedule, its own Slack personality, and honestly better work-life balance than me.' },
+      { icon: '&#128202;', text: 'Can explain the difference between median and average in a way that makes executives feel smart. This is my most marketable skill.' },
+      { icon: '&#9978;', text: 'Built a campsite finder app purely to test a code review tool. The app now has more features than most actual camping apps. It escalated.' },
+      { icon: '&#128640;', text: 'Ships code at 2am with the confidence of someone who definitely wrote tests (narrator: she did not write tests).' },
+      { icon: '&#127828;', text: 'Believes that debugging is just a series of increasingly desperate console.log statements wearing a trench coat pretending to be engineering.' },
+      { icon: '&#128373;', text: 'Has strong opinions about Slack emoji reactions. The "eyes" emoji means "I saw this and am judging silently." This is not up for debate.' },
+    ];
+
+    const factsList = document.getElementById('facts-list');
+    facts.forEach(fact => {
+      const li = document.createElement('li');
+      li.innerHTML = `<span class="fact-icon">${fact.icon}</span><span>${fact.text}</span>`;
+      factsList.appendChild(li);
+    });
+
+    // ---- Email obfuscation ----
+    document.getElementById('email-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      alert("Nice try, spam bots. Email me by solving this puzzle:\n\nBase64 decode: Y2xhaXJlQHByYXNzby5haQ==\n\nIf you can't decode Base64, we probably shouldn't be emailing.");
+    });
+
+    // ---- Konami code easter egg ----
+    let konamiProgress = 0;
+    const konamiCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+
+    document.addEventListener('keydown', function(e) {
+      if (e.keyCode === konamiCode[konamiProgress]) {
+        konamiProgress++;
+        if (konamiProgress === konamiCode.length) {
+          activateKonami();
+          konamiProgress = 0;
+        }
+      } else {
+        konamiProgress = 0;
+      }
+    });
+
+    function activateKonami() {
+      document.body.classList.toggle('konami-activated');
+      if (document.body.classList.contains('konami-activated')) {
+        const banner = document.createElement('div');
+        banner.id = 'konami-banner';
+        banner.style.cssText = 'position:fixed;top:0;left:0;right:0;padding:0.75rem;background:linear-gradient(90deg,#7c3aed,#ec4899,#3b82f6,#4ade80,#f59e0b);text-align:center;font-weight:700;color:#000;z-index:9999;font-size:0.9rem;';
+        banner.textContent = 'KONAMI CODE ACTIVATED. You are now a person of culture. Everything is rainbow now.';
+        document.body.appendChild(banner);
+      } else {
+        document.getElementById('konami-banner')?.remove();
+      }
+    }
+
+    // ---- Click sparkle effect ----
+    document.addEventListener('click', function(e) {
+      for (let i = 0; i < 5; i++) {
+        const sparkle = document.createElement('div');
+        const size = 4 + Math.random() * 6;
+        const angle = (Math.PI * 2 * i) / 5;
+        const velocity = 30 + Math.random() * 40;
+        const colors = ['#7c3aed', '#ec4899', '#3b82f6', '#4ade80'];
+        sparkle.style.cssText = `
+          position: fixed; left: ${e.clientX}px; top: ${e.clientY}px;
+          width: ${size}px; height: ${size}px; border-radius: 50%;
+          background: ${colors[Math.floor(Math.random() * colors.length)]};
+          pointer-events: none; z-index: 9999;
+          transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        `;
+        document.body.appendChild(sparkle);
+        requestAnimationFrame(() => {
+          sparkle.style.transform = `translate(${Math.cos(angle) * velocity}px, ${Math.sin(angle) * velocity}px) scale(0)`;
+          sparkle.style.opacity = '0';
+        });
+        setTimeout(() => sparkle.remove(), 700);
+      }
+    });
+  </script>
+</body>
+</html>
