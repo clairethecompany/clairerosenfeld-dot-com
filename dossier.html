@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CLASSIFIED: The Claire Rosenfeld Dossier</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Space+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Special Elite', cursive;
+      background: #1a1410;
+      color: #d4c5a9;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Paper texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Top secret header */
+    .classified-stamp {
+      text-align: center;
+      margin-bottom: 2rem;
+      animation: stampSlam 0.5s ease;
+    }
+
+    @keyframes stampSlam {
+      0% { transform: scale(3) rotate(-15deg); opacity: 0; }
+      60% { transform: scale(1.1) rotate(2deg); opacity: 1; }
+      100% { transform: scale(1) rotate(-2deg); }
+    }
+
+    .stamp-box {
+      display: inline-block;
+      border: 4px solid #c53030;
+      padding: 0.5rem 2rem;
+      transform: rotate(-2deg);
+      position: relative;
+    }
+
+    .stamp-text {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #c53030;
+      letter-spacing: 0.15em;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .stamp-sub {
+      font-size: 0.8rem;
+      color: #c53030;
+      opacity: 0.7;
+      font-family: 'Space Mono', monospace;
+    }
+
+    /* Dossier header */
+    .dossier-header {
+      background: #231d15;
+      border: 1px solid #3d3428;
+      border-radius: 4px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .dossier-header::before {
+      content: 'CONFIDENTIAL';
+      position: absolute;
+      top: -10px;
+      right: 20px;
+      background: #c53030;
+      color: #fff;
+      padding: 0.2rem 0.8rem;
+      font-size: 0.7rem;
+      font-family: 'Space Mono', monospace;
+      letter-spacing: 0.1em;
+    }
+
+    .dossier-title {
+      font-size: 1.1rem;
+      color: #8b7e6a;
+      margin-bottom: 0.5rem;
+      font-family: 'Space Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .subject-name {
+      font-size: 2.25rem;
+      color: #e8d9b8;
+      margin-bottom: 0.25rem;
+    }
+
+    .subject-aliases {
+      color: #8b7e6a;
+      font-size: 0.9rem;
+    }
+
+    .subject-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-top: 1.25rem;
+      font-size: 0.9rem;
+    }
+
+    .subject-field {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .field-label {
+      color: #8b7e6a;
+      white-space: nowrap;
+    }
+
+    .field-value { color: #d4c5a9; }
+
+    .threat-level {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 1rem;
+      padding: 0.3rem 0.75rem;
+      background: rgba(197, 48, 48, 0.15);
+      border: 1px solid rgba(197, 48, 48, 0.3);
+      border-radius: 4px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: #f87171;
+    }
+
+    /* Evidence sections */
+    .evidence {
+      background: #231d15;
+      border: 1px solid #3d3428;
+      border-radius: 4px;
+      padding: 1.75rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .evidence::after {
+      content: attr(data-exhibit);
+      position: absolute;
+      top: -8px;
+      left: 15px;
+      background: #1a1410;
+      padding: 0 0.5rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      color: #8b7e6a;
+      letter-spacing: 0.1em;
+    }
+
+    .evidence-title {
+      font-size: 1.15rem;
+      color: #e8d9b8;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .evidence-title .icon { font-size: 1.3rem; }
+
+    .evidence p, .evidence li {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: #b8a88e;
+    }
+
+    .evidence ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .evidence ul li::before {
+      content: '>';
+      color: #c53030;
+      margin-right: 0.5rem;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .highlight {
+      background: rgba(250, 204, 21, 0.15);
+      padding: 0 3px;
+      border-bottom: 1px solid rgba(250, 204, 21, 0.4);
+    }
+
+    .redacted {
+      background: #3d3428;
+      color: transparent;
+      border-radius: 2px;
+      padding: 0 4px;
+      cursor: help;
+      transition: all 0.3s;
+      user-select: none;
+    }
+
+    .redacted:hover {
+      background: transparent;
+      color: #f87171;
+    }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: #3d3428;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 1.25rem;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2rem;
+      top: 8px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid #c53030;
+      background: #1a1410;
+    }
+
+    .timeline-year {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: #c53030;
+      margin-bottom: 0.15rem;
+    }
+
+    .timeline-event {
+      font-size: 0.9rem;
+      color: #b8a88e;
+      line-height: 1.5;
+    }
+
+    /* Agent notes (sticky notes) */
+    .agent-note {
+      background: #2a2318;
+      border-left: 3px solid #c53030;
+      padding: 0.75rem 1rem;
+      margin: 1rem 0;
+      font-size: 0.85rem;
+      color: #8b7e6a;
+      font-style: italic;
+      transform: rotate(-0.5deg);
+    }
+
+    .agent-note .agent-sig {
+      display: block;
+      text-align: right;
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+      color: #5a4f3e;
+    }
+
+    /* Connections board */
+    .connections {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .connection-card {
+      background: #2a2318;
+      border: 1px solid #3d3428;
+      border-radius: 4px;
+      padding: 0.75rem;
+      text-align: center;
+      transition: all 0.3s;
+    }
+
+    .connection-card:hover {
+      border-color: #c53030;
+      transform: rotate(-1deg);
+    }
+
+    .connection-icon { font-size: 1.5rem; margin-bottom: 0.3rem; }
+    .connection-name { font-size: 0.85rem; color: #e8d9b8; font-weight: 600; }
+    .connection-role { font-size: 0.7rem; color: #8b7e6a; margin-top: 0.15rem; }
+
+    /* Verdict */
+    .verdict {
+      text-align: center;
+      padding: 2.5rem;
+      background: #231d15;
+      border: 2px solid #c53030;
+      border-radius: 4px;
+      margin: 2rem 0;
+      position: relative;
+    }
+
+    .verdict::before {
+      content: 'FINAL ASSESSMENT';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1a1410;
+      padding: 0 1rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      color: #c53030;
+      letter-spacing: 0.15em;
+    }
+
+    .verdict-text {
+      font-size: 1.1rem;
+      color: #e8d9b8;
+      line-height: 1.7;
+      max-width: 550px;
+      margin: 0 auto;
+    }
+
+    .verdict-stamp {
+      margin-top: 1.5rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 1.75rem;
+      color: #c53030;
+      transform: rotate(-3deg);
+      letter-spacing: 0.1em;
+    }
+
+    /* Footer */
+    .dossier-footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.75rem;
+      color: #3d3428;
+    }
+
+    /* Blinking cursor */
+    .blink { animation: blink 1s step-end infinite; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+    /* Typewriter reveal on scroll */
+    .reveal {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 640px) {
+      .subject-grid { grid-template-columns: 1fr; }
+      .stamp-text { font-size: 1.75rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- CLASSIFIED STAMP -->
+    <div class="classified-stamp">
+      <div class="stamp-box">
+        <div class="stamp-text">CLASSIFIED</div>
+        <div class="stamp-sub">INTERNET INTELLIGENCE DOSSIER // FILE #CR-1999</div>
+      </div>
+    </div>
+
+    <!-- SUBJECT HEADER -->
+    <div class="dossier-header">
+      <div class="dossier-title">Subject Profile</div>
+      <div class="subject-name">Claire Rosenfeld</div>
+      <div class="subject-aliases">AKA: @clairerosenfeld // clairetheperson // "The one who builds things at 2am"</div>
+
+      <div class="subject-grid">
+        <div class="subject-field"><span class="field-label">ORIGIN:</span> <span class="field-value">Portland, Oregon</span></div>
+        <div class="subject-field"><span class="field-label">BORN:</span> <span class="field-value">1999</span></div>
+        <div class="subject-field"><span class="field-label">EDUCATION:</span> <span class="field-value">Stanford University (BS CS, MS MS&E)</span></div>
+        <div class="subject-field"><span class="field-label">COVER:</span> <span class="field-value">Macroscope (AI Code Review)</span></div>
+        <div class="subject-field"><span class="field-label">PREV. COVER:</span> <span class="field-value">Alchemist Accelerator</span></div>
+        <div class="subject-field"><span class="field-label">STATUS:</span> <span class="field-value">Active. Extremely active.</span></div>
+      </div>
+
+      <div class="threat-level">
+        <span>&#9888;</span> THREAT LEVEL: DANGEROUSLY COMPETENT
+      </div>
+    </div>
+
+    <!-- EVIDENCE A: Origin Story -->
+    <div class="evidence reveal" data-exhibit="EXHIBIT A — ORIGIN STORY">
+      <div class="evidence-title"><span class="icon">&#128270;</span> The Portland Years</div>
+      <p>
+        Our investigation begins in <span class="highlight">Portland, Oregon</span>, where the subject
+        attended <span class="highlight">Catlin Gabel School for 14 consecutive years</span>. That's not a typo.
+        Fourteen years. Same school. Pre-K through graduation. The kind of institutional loyalty that
+        would make a Costco membership jealous.
+      </p>
+      <div class="agent-note">
+        ANALYST NOTE: Catlin Gabel is a private school in Portland known for progressive education.
+        14 years of "learning to be curious" — explains the current behavior pattern of
+        building booking engines for fake campsites at midnight.
+        <span class="agent-sig">— Agent WebCrawler</span>
+      </div>
+      <p>
+        During these formative years, the subject was already showing signs of overachievement:
+        <span class="highlight">National Merit Commended Scholar</span>, executive team member for
+        <span class="highlight">Camions of Care</span>, <span class="highlight">Special Olympics volunteer</span>,
+        and recipient of the <span class="highlight">Harry Glickman Scholar Athlete Award</span> (2017).
+        She was the first Catlin Gabel student to win it alongside a classmate in the same year.
+      </p>
+    </div>
+
+    <!-- EVIDENCE B: International Lacrosse Operations -->
+    <div class="evidence reveal" data-exhibit="EXHIBIT B — INTERNATIONAL OPERATIONS">
+      <div class="evidence-title"><span class="icon">&#129351;</span> The Maccabiah Gold Medal Incident</div>
+      <p>
+        In <span class="highlight">July 2017</span>, the subject was deployed to <span class="highlight">Israel</span>
+        as a member of the <span class="highlight">U.S. Junior Lacrosse Team</span> for the
+        <span class="highlight">20th World Maccabiah Games</span>.
+      </p>
+      <p>
+        Result: <span class="highlight">Gold medal</span>. Team USA crushed Great Britain 19-2 in the final.
+        This was the <span class="highlight">first time in history</span> that lacrosse was played at the Maccabiah Games.
+        The subject didn't just participate in history — she helped make it.
+      </p>
+      <div class="agent-note">
+        ANALYST NOTE: The subject later continued playing lacrosse at Stanford — defense position
+        on the club team. We believe the defensive skills may explain her ability to deflect
+        questions about why she has 5 GitHub organizations.
+        <span class="agent-sig">— Agent WebCrawler</span>
+      </div>
+    </div>
+
+    <!-- EVIDENCE C: Stanford -->
+    <div class="evidence reveal" data-exhibit="EXHIBIT C — THE STANFORD FILES">
+      <div class="evidence-title"><span class="icon">&#127891;</span> Academic Infiltration</div>
+      <p>
+        The subject infiltrated <span class="highlight">Stanford University</span> and pursued not one,
+        not two, but <span class="highlight">three fields of study</span>:
+      </p>
+      <ul>
+        <li><span class="highlight">B.S. Computer Science</span> — learned to make computers obey</li>
+        <li><span class="highlight">M.S. Management Science & Engineering</span> — learned to make humans obey</li>
+        <li><span class="highlight">Classics</span> — because apparently two STEM degrees weren't enough and she needed to read Homer in the original Greek for fun</li>
+      </ul>
+
+      <p style="margin-top: 1rem;">
+        Known Stanford activities include: <span class="highlight">club lacrosse</span> (defense),
+        leading <span class="highlight">Stanford Outdoor Program</span> adventures,
+        <span class="highlight">d.school design thinking</span> training,
+        playing ping pong, and "exploring campus through running."
+      </p>
+
+      <div class="agent-note">
+        ANALYST NOTE: At some point she also studied speech emotion recognition using
+        convolutional recurrent neural networks. Because regular neural networks were
+        apparently too easy. The GitHub repo still exists. It's watching us.
+        <span class="agent-sig">— Agent WebCrawler</span>
+      </div>
+    </div>
+
+    <!-- EVIDENCE D: The Dinkelspiel -->
+    <div class="evidence reveal" data-exhibit="EXHIBIT D — THE HIGHEST HONOR">
+      <div class="evidence-title"><span class="icon">&#127942;</span> Stanford's Dinkelspiel Award</div>
+      <p>
+        The subject received the <span class="highlight">Lloyd W. Dinkelspiel Award</span>, one of
+        Stanford's highest honors for students, recognizing "distinctive and exceptional contributions
+        to undergraduate education or the quality of student life."
+      </p>
+      <p>
+        The official citation praised her <span class="highlight">"humble, empathetic, and dedicated
+        servant leadership"</span> and noted her <span class="highlight">"deep care for her fellow students"</span>,
+        including providing peer-to-peer support during times of crisis.
+      </p>
+      <p>
+        Translation: She was so good at being a human that Stanford gave her a trophy for it.
+      </p>
+      <div class="agent-note">
+        ANALYST NOTE: This is genuinely impressive. The Dinkelspiel is not given lightly.
+        Past recipients include people who've gone on to change entire institutions.
+        The subject appears to be on that trajectory — except she's doing it with
+        Slack bots and camping apps.
+        <span class="agent-sig">— Agent WebCrawler</span>
+      </div>
+    </div>
+
+    <!-- EVIDENCE E: Career -->
+    <div class="evidence reveal" data-exhibit="EXHIBIT E — CAREER TRAJECTORY">
+      <div class="evidence-title"><span class="icon">&#128188;</span> Known Employment History</div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-year">EARLY OPS</div>
+          <div class="timeline-event"><span class="highlight">Lumencor</span> — Software engineering. The company makes microscope lighting. She was literally illuminating things from day one.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">SECURITY SECTOR</div>
+          <div class="timeline-event"><span class="highlight">Balbix</span> — Cybersecurity. She knows where the vulnerabilities are. This should concern us.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">IMPACT INVESTING</div>
+          <div class="timeline-event"><span class="highlight">CNote</span> — Community development finance. Engineering for social good. Suspiciously wholesome.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">FINTECH</div>
+          <div class="timeline-event"><span class="highlight">Sila Money</span> — Product management. Pivoted from writing code to deciding what code gets written. Power move.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">BIG DATA</div>
+          <div class="timeline-event"><span class="highlight">Snowflake</span> — Startup sales. Yes, that Snowflake. She sold cloud data warehouses. She has a Snowflake blog author page. <span class="redacted">she could sell ice to penguins</span></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">ACCELERATOR ERA</div>
+          <div class="timeline-event"><span class="highlight">Alchemist Accelerator</span> — Program Director. Managed 60+ early-stage startups per cohort. Mentored founders on sales, product, and fundraising. <span class="highlight">Spoke at Startupfest.</span></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">CURRENT</div>
+          <div class="timeline-event"><span class="highlight">Macroscope</span> — AI code review startup. Founded by <span class="redacted">Kayvon Beykpour</span> (yes, the former Twitter CEO). The subject now builds AI-powered automation pipelines, manages pricing models, runs Google Ads, and deploys Slack bots that have better attendance than most employees.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EVIDENCE F: Connections -->
+    <div class="evidence reveal" data-exhibit="EXHIBIT F — KNOWN ASSOCIATIONS">
+      <div class="evidence-title"><span class="icon">&#128373;</span> Organizational Connections</div>
+      <div class="connections">
+        <div class="connection-card">
+          <div class="connection-icon">&#127891;</div>
+          <div class="connection-name">Stanford University</div>
+          <div class="connection-role">BS CS, MS MS&E, Classics, d.school</div>
+        </div>
+        <div class="connection-card">
+          <div class="connection-icon">&#128640;</div>
+          <div class="connection-name">Alchemist Accelerator</div>
+          <div class="connection-role">Program Director</div>
+        </div>
+        <div class="connection-card">
+          <div class="connection-icon">&#129302;</div>
+          <div class="connection-name">Macroscope</div>
+          <div class="connection-role">Current operations base</div>
+        </div>
+        <div class="connection-card">
+          <div class="connection-icon">&#10052;</div>
+          <div class="connection-name">Snowflake</div>
+          <div class="connection-role">Former sales operative</div>
+        </div>
+        <div class="connection-card">
+          <div class="connection-icon">&#127941;</div>
+          <div class="connection-name">Maccabi USA</div>
+          <div class="connection-role">Gold medalist, Lacrosse</div>
+        </div>
+        <div class="connection-card">
+          <div class="connection-icon">&#127793;</div>
+          <div class="connection-name">Catlin Gabel</div>
+          <div class="connection-role">14 years. Entire childhood.</div>
+        </div>
+        <div class="connection-card">
+          <div class="connection-icon">&#127908;</div>
+          <div class="connection-name">Startupfest</div>
+          <div class="connection-role">Speaker & Mentor</div>
+        </div>
+        <div class="connection-card">
+          <div class="connection-icon">&#9978;</div>
+          <div class="connection-name">The Outdoors</div>
+          <div class="connection-role">Stanford Outdoor Program leader</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EVIDENCE G: Behavioral Analysis -->
+    <div class="evidence reveal" data-exhibit="EXHIBIT G — BEHAVIORAL ANALYSIS">
+      <div class="evidence-title"><span class="icon">&#129504;</span> Psychological Profile</div>
+      <ul>
+        <li>Shows pathological inability to do only one thing at a time (CS + Classics + MS&E? Engineering + sales + product?)</li>
+        <li>Converts test repos into full applications with booking engines. Possible scope creep addiction.</li>
+        <li>Deploys autonomous Slack bots with "better attendance than most employees" — either very funny or a genuine warning sign</li>
+        <li>Her website has a Konami code easter egg and makes you decode Base64 to get her email. Classic security-through-obscurity behavior.</li>
+        <li>Studied Classics alongside Computer Science, suggesting she debugs code while thinking about the fall of Rome</li>
+        <li>Gold medalist lacrosse player turned AI wrangler. The hand-eye coordination now goes into keyboard shortcuts.</li>
+        <li>Described at Stanford as having "humble, empathetic, and dedicated servant leadership" — <span class="redacted">genuinely wholesome, likely a cover</span></li>
+        <li>Has built automated systems so thorough that her laptop essentially runs itself via launchd agents</li>
+      </ul>
+    </div>
+
+    <!-- VERDICT -->
+    <div class="verdict reveal">
+      <div class="verdict-text">
+        Subject has been under surveillance across LinkedIn, GitHub, Startupfest, Stanford archives,
+        Oregon Jewish Life magazine, Maccabi USA team rosters, the Catlin Gabel newsletter, and her
+        own personal website (which she apparently built in one night with an AI).
+        <br><br>
+        Findings: A gold-medalist lacrosse player from Portland who got a Stanford award for being
+        an exceptionally good human, studied ancient Greek for fun, sold cloud databases at Snowflake,
+        mentored 60+ startups, and now builds AI-powered code review tools while deploying
+        autonomous Slack bots at 2am.
+        <br><br>
+        The internet has spoken. The subject is <span class="highlight">annoyingly impressive</span>.
+      </div>
+      <div class="verdict-stamp">CASE CLOSED</div>
+    </div>
+
+    <div class="dossier-footer">
+      <p>COMPILED BY: Agent WebCrawler // CLEARANCE: PUBLIC INTERNET ONLY</p>
+      <p style="margin-top: 0.5rem;">Sources: LinkedIn, GitHub, clairerosenfeld.com, Stanford Report, Oregon Jewish Life,<br> Maccabi USA, Startupfest, Catlin Gabel News, Snowflake Blog, Alchemist Accelerator</p>
+      <p style="margin-top: 0.75rem;">No laws were broken in the making of this dossier. Probably.</p>
+      <p style="margin-top: 0.5rem;"><a href="/" style="color: #8b7e6a;">&larr; Return to clairerosenfeld.com (the non-creepy version)</a></p>
+    </div>
+  </div>
+
+  <script>
+    // Reveal on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Random redaction flicker
+    document.querySelectorAll('.redacted').forEach(el => {
+      setInterval(() => {
+        el.style.opacity = 0.7 + Math.random() * 0.3;
+      }, 2000);
+    });
+
+    // Console
+    console.log('%cCLASSIFIED DOSSIER ACCESSED', 'font-size: 20px; color: #c53030; font-weight: bold; font-family: monospace;');
+    console.log('%cAll information sourced from publicly available internet data.', 'color: #8b7e6a;');
+    console.log('%cThe subject has been notified of this surveillance. She thought it was funny.', 'color: #5a4f3e; font-style: italic;');
+  </script>
+</body>
+</html>
