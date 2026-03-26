@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claire Rosenfeld - Definitely a Real Resume</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 2rem;
+    }
+
+    .page {
+      max-width: 750px;
+      margin: 0 auto;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 16px;
+      padding: 3rem;
+      position: relative;
+    }
+
+    .watermark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-30deg);
+      font-size: 5rem;
+      font-weight: 800;
+      opacity: 0.02;
+      color: #e2e8f0;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 2px solid #334155;
+    }
+
+    .header h1 {
+      font-size: 2.25rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #7c3aed, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header .tagline {
+      color: #94a3b8;
+      font-size: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .header .meta {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 0.75rem;
+      font-size: 0.8rem;
+      color: #64748b;
+    }
+
+    .section {
+      margin-bottom: 2rem;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-head h2 {
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #a78bfa;
+    }
+
+    .section-head::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #334155;
+    }
+
+    .job {
+      margin-bottom: 1.5rem;
+      padding-left: 1rem;
+      border-left: 2px solid #334155;
+    }
+
+    .job:hover {
+      border-left-color: #7c3aed;
+    }
+
+    .job-title {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .job-company {
+      color: #a78bfa;
+      font-size: 0.9rem;
+    }
+
+    .job-dates {
+      font-size: 0.8rem;
+      color: #64748b;
+      margin-bottom: 0.5rem;
+    }
+
+    .job ul {
+      list-style: none;
+      font-size: 0.85rem;
+      color: #94a3b8;
+      line-height: 1.7;
+    }
+
+    .job ul li::before {
+      content: '>';
+      color: #4ade80;
+      margin-right: 0.5rem;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .tooltip {
+      position: relative;
+      border-bottom: 1px dashed #64748b;
+      cursor: help;
+    }
+
+    .tooltip:hover::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0f172a;
+      border: 1px solid #7c3aed;
+      padding: 0.4rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      color: #e2e8f0;
+      white-space: nowrap;
+      z-index: 10;
+    }
+
+    .skills-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .skill-tag {
+      padding: 0.3rem 0.7rem;
+      background: rgba(124, 58, 237, 0.1);
+      border: 1px solid rgba(124, 58, 237, 0.2);
+      border-radius: 6px;
+      font-size: 0.8rem;
+      color: #c4b5fd;
+      transition: all 0.2s;
+    }
+
+    .skill-tag:hover {
+      background: rgba(124, 58, 237, 0.2);
+      border-color: rgba(124, 58, 237, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .skill-tag.secret {
+      background: rgba(236, 72, 153, 0.1);
+      border-color: rgba(236, 72, 153, 0.2);
+      color: #f9a8d4;
+    }
+
+    .education {
+      font-size: 0.9rem;
+    }
+
+    .education .school {
+      font-weight: 600;
+    }
+
+    .education .degree {
+      color: #94a3b8;
+    }
+
+    .references {
+      text-align: center;
+      padding: 1.5rem;
+      background: rgba(124, 58, 237, 0.05);
+      border: 1px dashed #334155;
+      border-radius: 10px;
+      color: #64748b;
+      font-size: 0.85rem;
+      font-style: italic;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 2rem;
+      color: #7c3aed;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    .back-link:hover { text-decoration: underline; }
+
+    .print-note {
+      text-align: center;
+      font-size: 0.7rem;
+      color: #334155;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="watermark">HIRED IMMEDIATELY</div>
+
+    <div class="header">
+      <h1>Claire Rosenfeld</h1>
+      <div class="tagline">Professional Computer Whisperer & Campsite Connoisseur</div>
+      <div class="meta">
+        <span>&#127758; California</span>
+        <span>&#128231; [REDACTED]@prasso.ai</span>
+        <span>&#128025; github.com/clairerosenfeld</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h2>Summary</h2></div>
+      <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.6;">
+        Tech professional with a proven track record of making AI do things it
+        probably shouldn't be able to do, explaining complex systems to people
+        who didn't ask, and building internal tools that somehow become the most
+        critical thing in the company. Currently focused on the intersection of
+        <span class="tooltip" data-tip="yes this is a real field">AI-powered code review</span>,
+        developer experience, and
+        <span class="tooltip" data-tip="it's always about the spreadsheets">data-driven business operations</span>.
+      </p>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h2>Experience</h2></div>
+
+      <div class="job">
+        <div class="job-title">GTM & Ops</div>
+        <div class="job-company">Macroscope (AI Code Review)</div>
+        <div class="job-dates">2025 - Present</div>
+        <ul>
+          <li>Built an AI-powered customer enrichment pipeline that knows more about new users than they know about themselves</li>
+          <li>Automated Slack-based monitoring so thoroughly that the bot has better response times than the team</li>
+          <li>Created pricing models using statistical methods that made the finance team briefly concerned I was a witch</li>
+          <li>Designed dashboards that executives actually look at (the holy grail of data work)</li>
+          <li>Managed Google Ads campaigns while simultaneously arguing about attribution models</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-title">Builder of Things That Didn't Exist Before</div>
+        <div class="job-company">Various Adventures</div>
+        <div class="job-dates">Ongoing</div>
+        <ul>
+          <li>Built a campsite finder app to test a code review tool; it now has booking engines, weather widgets, and more features than Airbnb</li>
+          <li>Created Remotion-powered brand videos that made marketing people say "wait, code can do this?"</li>
+          <li>Deployed enough LaunchAgents that my MacBook basically runs itself now</li>
+          <li>Became fluent in "translating engineering to business" and vice versa (bilingual resume)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h2>Skills</h2></div>
+      <div class="skills-container">
+        <span class="skill-tag">AI/LLM Wrangling</span>
+        <span class="skill-tag">TypeScript</span>
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">React</span>
+        <span class="skill-tag">Data Analysis</span>
+        <span class="skill-tag">Stripe API</span>
+        <span class="skill-tag">PostHog</span>
+        <span class="skill-tag">Google Ads</span>
+        <span class="skill-tag">Slack Automation</span>
+        <span class="skill-tag">Playwright</span>
+        <span class="skill-tag">Attio CRM</span>
+        <span class="skill-tag">Claude Code</span>
+        <span class="skill-tag">Pricing Strategy</span>
+        <span class="skill-tag">Dashboard Design</span>
+        <span class="skill-tag">Contract Review</span>
+        <span class="skill-tag secret">Campsite Selection</span>
+        <span class="skill-tag secret">Strategic Emoji Usage</span>
+        <span class="skill-tag secret">2am Deploys</span>
+        <span class="skill-tag secret">Debugging by Vibes</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h2>Education</h2></div>
+      <div class="education">
+        <div class="school">Stanford University</div>
+        <div class="degree" style="margin-bottom: 0.5rem;">Studied CS (and survived)</div>
+      </div>
+    </div>
+
+    <div class="references">
+      "References available upon request, but honestly just look at my GitHub commit history.
+      It tells you everything you need to know, including my sleep schedule."
+    </div>
+  </div>
+
+  <a href="/" class="back-link">&larr; Back to the main page (the fun one)</a>
+  <div class="print-note">Pro tip: Don't actually print this. Trees died for less funny resumes.</div>
+
+  <script>
+    console.log('%cLooking at the source code of my resume?', 'font-size: 18px; color: #7c3aed; font-weight: bold;');
+    console.log('%cThat\'s exactly the kind of initiative I respect.', 'font-size: 14px; color: #94a3b8;');
+    console.log('%cYou\'re hired. (Not legally binding.)', 'font-size: 14px; color: #4ade80;');
+  </script>
+</body>
+</html>

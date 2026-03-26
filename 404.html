@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Claire Lost This Page While Camping</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      overflow: hidden;
+    }
+
+    .campfire {
+      font-size: 6rem;
+      margin-bottom: 1rem;
+      animation: flicker 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes flicker {
+      0% { transform: scale(1); filter: brightness(1); }
+      25% { transform: scale(1.02) rotate(-1deg); filter: brightness(1.1); }
+      50% { transform: scale(0.98) rotate(1deg); filter: brightness(0.9); }
+      75% { transform: scale(1.01) rotate(-0.5deg); filter: brightness(1.05); }
+      100% { transform: scale(1); filter: brightness(1); }
+    }
+
+    .error-code {
+      font-family: 'Space Mono', monospace;
+      font-size: 8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #7c3aed, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin: 1rem 0 0.5rem;
+    }
+
+    .message {
+      color: #94a3b8;
+      max-width: 450px;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .suggestions {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .suggestions li {
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+      cursor: default;
+    }
+
+    .suggestions li:hover {
+      border-color: #7c3aed;
+      background: rgba(124, 58, 237, 0.1);
+      transform: translateX(4px);
+    }
+
+    .home-btn {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      background: linear-gradient(135deg, #7c3aed, #ec4899);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .home-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
+    }
+
+    /* Stars background */
+    .star {
+      position: fixed;
+      width: 2px;
+      height: 2px;
+      background: #e2e8f0;
+      border-radius: 50%;
+      animation: twinkle 3s ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+
+    .bear {
+      position: fixed;
+      bottom: -60px;
+      right: -60px;
+      font-size: 8rem;
+      opacity: 0.1;
+      transform: rotate(-15deg);
+      pointer-events: none;
+    }
+
+    .tiny-text {
+      position: fixed;
+      bottom: 1rem;
+      font-size: 0.65rem;
+      color: #334155;
+    }
+  </style>
+</head>
+<body>
+  <div class="campfire">&#127785;</div>
+  <div class="error-code">404</div>
+  <h1>This Page Wandered Off Trail</h1>
+  <p class="message">
+    It probably went to find better cell service. Or maybe it's enjoying
+    the view from a ridge somewhere. Either way, it's not here.
+  </p>
+
+  <ul class="suggestions">
+    <li>&#129517; Did you check if the URL has a bear locker?</li>
+    <li>&#128270; The page might be on a hike. Try searching.</li>
+    <li>&#9978; Perhaps it's at the campsite finder instead.</li>
+    <li>&#128161; Have you tried turning the URL off and on again?</li>
+  </ul>
+
+  <a href="/" class="home-btn">Return to Base Camp</a>
+
+  <div class="bear">&#128059;</div>
+  <div class="tiny-text">If you're reading this, you've scrolled too far. The page is definitely not down here.</div>
+
+  <script>
+    // Generate starry sky
+    for (let i = 0; i < 80; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.cssText = `
+        left: ${Math.random() * 100}%;
+        top: ${Math.random() * 100}%;
+        animation-delay: ${Math.random() * 3}s;
+        animation-duration: ${2 + Math.random() * 3}s;
+      `;
+      document.body.appendChild(star);
+    }
+
+    // Console easter egg
+    console.log('%c404: Page Not Found', 'font-size: 24px; color: #ec4899; font-weight: bold;');
+    console.log('%cBut you found the console, so that\'s something.', 'font-size: 14px; color: #94a3b8;');
+    console.log('%cHere\'s a bear for your troubles: ʕ•ᴥ•ʔ', 'font-size: 16px;');
+  </script>
+</body>
+</html>
