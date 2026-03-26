@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claire's Projects - Things I Built Instead of Sleeping</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 2rem;
+    }
+    .container { max-width: 850px; margin: 0 auto; }
+    .back { color: #7c3aed; text-decoration: none; font-size: 0.9rem; display: inline-block; margin-bottom: 2rem; }
+    .back:hover { text-decoration: underline; }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #7c3aed, #ec4899, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.25rem;
+    }
+    .subtitle { color: #64748b; margin-bottom: 2.5rem; font-size: 0.95rem; }
+
+    .project {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid #1e293b;
+      border-radius: 14px;
+      padding: 1.75rem;
+      margin-bottom: 1.25rem;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .project::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent, #7c3aed), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .project:hover { border-color: rgba(124,58,237,0.3); transform: translateY(-2px); }
+    .project:hover::before { opacity: 1; }
+
+    .project-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
+    .project-name { font-size: 1.15rem; font-weight: 700; }
+    .project-status {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .status-live { background: rgba(74,222,128,0.15); color: #4ade80; }
+    .status-wip { background: rgba(250,204,21,0.15); color: #facc15; }
+    .status-idea { background: rgba(148,163,184,0.15); color: #94a3b8; }
+    .status-cursed { background: rgba(248,113,113,0.15); color: #f87171; }
+
+    .project-desc { color: #94a3b8; font-size: 0.9rem; line-height: 1.6; margin-bottom: 0.75rem; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 0.75rem; }
+    .tag {
+      font-size: 0.7rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      background: rgba(124,58,237,0.1);
+      color: #a78bfa;
+      border: 1px solid rgba(124,58,237,0.15);
+    }
+    .project-footer { display: flex; gap: 1rem; font-size: 0.8rem; color: #475569; }
+    .project-footer a { color: #7c3aed; text-decoration: none; }
+    .project-footer a:hover { text-decoration: underline; }
+
+    .commit-log {
+      margin-top: 0.75rem;
+      padding: 0.6rem 0.75rem;
+      background: #0f172a;
+      border-radius: 6px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: #64748b;
+      overflow: hidden;
+    }
+    .commit-log .hash { color: #f59e0b; }
+    .commit-log .msg { color: #94a3b8; }
+
+    .stats-bar {
+      display: flex;
+      gap: 1.5rem;
+      padding: 1.25rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      margin-bottom: 2rem;
+    }
+    .stat { text-align: center; flex: 1; }
+    .stat-value { font-size: 1.75rem; font-weight: 800; color: #a78bfa; }
+    .stat-label { font-size: 0.75rem; color: #64748b; margin-top: 0.15rem; }
+
+    .philosophy {
+      text-align: center;
+      padding: 2rem;
+      margin-top: 2rem;
+      border: 1px dashed #334155;
+      border-radius: 12px;
+      color: #475569;
+      font-style: italic;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/" class="back">&larr; Back to home</a>
+    <h1>Projects</h1>
+    <p class="subtitle">Things I built instead of sleeping, organized by descending chaos</p>
+
+    <div class="stats-bar">
+      <div class="stat"><div class="stat-value">7</div><div class="stat-label">Projects</div></div>
+      <div class="stat"><div class="stat-value">3</div><div class="stat-label">Actually Useful</div></div>
+      <div class="stat"><div class="stat-value">47</div><div class="stat-label">Abandoned Ideas</div></div>
+      <div class="stat"><div class="stat-value">2am</div><div class="stat-label">Avg Deploy Time</div></div>
+    </div>
+
+    <div class="project" style="--accent: #4ade80;">
+      <div class="project-header">
+        <div class="project-name">Campsite Finder</div>
+        <span class="project-status status-live">LIVE</span>
+      </div>
+      <div class="project-desc">
+        Started as a test repo for Macroscope code review. Now has 12 campsites, a booking engine,
+        weather widgets, trip planner, packing checklists, review analytics, and a full API client
+        with rate limiting. It escalated. There is no going back.
+      </div>
+      <div class="project-tags">
+        <span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">Vite</span>
+        <span class="tag">Feature Creep</span><span class="tag">Emotional Attachment</span>
+      </div>
+      <div class="commit-log">
+        <span class="hash">c2f15b4</span> <span class="msg">Add CampgroundAPI client with caching and retry logic</span>
+      </div>
+      <div class="project-footer">
+        <a href="https://github.com/Claire-s-Campground-Finder/campsite-finder">GitHub</a>
+        <span>8 PRs merged</span>
+        <span>4,000+ lines</span>
+      </div>
+    </div>
+
+    <div class="project" style="--accent: #ec4899;">
+      <div class="project-header">
+        <div class="project-name">clairerosenfeld.com</div>
+        <span class="project-status status-live">LIVE</span>
+      </div>
+      <div class="project-desc">
+        You're looking at it. A personal website with floating particles, a fake terminal,
+        skill bars that animate on scroll, a Konami code easter egg, a 404 page with a shy bear,
+        and a resume that says "HIRED IMMEDIATELY" as a watermark. The email link makes you
+        decode Base64. Peak web development.
+      </div>
+      <div class="project-tags">
+        <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">Vanity</span>
+        <span class="tag">Easter Eggs</span><span class="tag">Sparkles on Click</span>
+      </div>
+      <div class="project-footer">
+        <a href="https://github.com/clairethecompany/clairerosenfeld-dot-com">GitHub</a>
+        <a href="https://clairethecompany.github.io/clairerosenfeld-dot-com/">Live Site</a>
+      </div>
+    </div>
+
+    <div class="project" style="--accent: #3b82f6;">
+      <div class="project-header">
+        <div class="project-name">Slack Customer Watch Bot</div>
+        <span class="project-status status-live">LIVE</span>
+      </div>
+      <div class="project-desc">
+        An autonomous AI agent that monitors Slack channels for new customer installs,
+        enriches them with web research + Stripe + Attio + PostHog data, and posts
+        threaded summaries. Runs every 15 minutes via launchd. Has better attendance
+        than most employees.
+      </div>
+      <div class="project-tags">
+        <span class="tag">Claude Code</span><span class="tag">Python</span><span class="tag">launchd</span>
+        <span class="tag">Slack MCP</span><span class="tag">Never Sleeps</span>
+      </div>
+      <div class="project-footer">
+        <span>Runs every 15 min</span>
+        <span>Zero human intervention needed</span>
+      </div>
+    </div>
+
+    <div class="project" style="--accent: #f59e0b;">
+      <div class="project-header">
+        <div class="project-name">Customer Activity Dashboard</div>
+        <span class="project-status status-live">LIVE</span>
+      </div>
+      <div class="project-desc">
+        Full pipeline: GitHub install detection, AI-powered company enrichment, Stripe billing
+        lookups, Attio CRM integration, all rendered into an interactive HTML dashboard. Sends
+        weekly digests to Slack every Friday. The data is always fresher than the coffee.
+      </div>
+      <div class="project-tags">
+        <span class="tag">Python</span><span class="tag">Stripe API</span><span class="tag">Attio</span>
+        <span class="tag">PostHog</span><span class="tag">Automation</span>
+      </div>
+      <div class="project-footer">
+        <span>Weekly automated digests</span>
+        <span>40+ enriched companies</span>
+      </div>
+    </div>
+
+    <div class="project" style="--accent: #a78bfa;">
+      <div class="project-header">
+        <div class="project-name">Remotion Brand Videos</div>
+        <span class="project-status status-wip">WIP</span>
+      </div>
+      <div class="project-desc">
+        Programmatic motion graphics using Remotion (React for video). Celebration animations,
+        Slack AMA recaps, PR milestone videos. Because manually editing video is for people
+        who don't know that everything can be code.
+      </div>
+      <div class="project-tags">
+        <span class="tag">Remotion</span><span class="tag">React</span><span class="tag">Motion Design</span>
+        <span class="tag">Code Is Art</span>
+      </div>
+      <div class="project-footer">
+        <span>7 compositions</span>
+        <span>Geist font, obviously</span>
+      </div>
+    </div>
+
+    <div class="project" style="--accent: #f87171;">
+      <div class="project-header">
+        <div class="project-name">Retool Screenshot Bot</div>
+        <span class="project-status status-cursed">CURSED</span>
+      </div>
+      <div class="project-desc">
+        Uses Playwright to log into Retool via persistent Google SSO, navigate to the Customer
+        Health dashboard, adjust filters, take a screenshot, then upload the image to Slack by
+        automating the Slack web file upload UI. It works. It shouldn't, but it does. Don't ask
+        how many hours this took.
+      </div>
+      <div class="project-tags">
+        <span class="tag">Playwright</span><span class="tag">Browser Automation</span>
+        <span class="tag">Cursed Engineering</span><span class="tag">It Works Don't Touch It</span>
+      </div>
+      <div class="project-footer">
+        <span>Auth persists via cookie jar</span>
+        <span>Fragile but beautiful</span>
+      </div>
+    </div>
+
+    <div class="project" style="--accent: #94a3b8;">
+      <div class="project-header">
+        <div class="project-name">Amplitude Fake Data Seeder</div>
+        <span class="project-status status-idea">EXPERIMENTAL</span>
+      </div>
+      <div class="project-desc">
+        Node script that generates realistic fake product analytics events and seeds them
+        into Amplitude. Invents new random features and events each time it runs, so the
+        data never gets boring. The user archetypes have personality traits. The churned
+        users have backstories.
+      </div>
+      <div class="project-tags">
+        <span class="tag">Node.js</span><span class="tag">Amplitude SDK</span>
+        <span class="tag">Fake Data</span><span class="tag">Method Acting</span>
+      </div>
+      <div class="project-footer">
+        <span>5 user archetypes</span>
+        <span>Infinite fake features</span>
+      </div>
+    </div>
+
+    <div class="philosophy">
+      "The best code is code that solves a problem you didn't know you had,<br>
+      at 2am, while camping, with questionable WiFi."<br>
+      <span style="font-size: 0.75rem; margin-top: 0.5rem; display: block;">— Claire, probably</span>
+    </div>
+  </div>
+</body>
+</html>

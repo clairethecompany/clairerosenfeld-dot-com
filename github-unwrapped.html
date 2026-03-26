@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claire's GitHub Unwrapped 2026</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0a0a1a;
+      color: #e2e8f0;
+      overflow-x: hidden;
+    }
+
+    /* Full-page scroll snap sections */
+    .slides {
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+      height: 100vh;
+    }
+
+    .slide {
+      scroll-snap-align: start;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide-number {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      color: #334155;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.8rem;
+      color: #475569;
+      animation: bounce 2s ease infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* Slide 1: Intro */
+    .slide-intro {
+      background: radial-gradient(ellipse at 50% 50%, rgba(124,58,237,0.2) 0%, transparent 70%);
+    }
+
+    .intro-year {
+      font-family: 'Space Mono', monospace;
+      font-size: 10rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #7c3aed 0%, #ec4899 50%, #3b82f6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+      animation: fadeScale 1s ease;
+    }
+
+    .intro-label {
+      font-size: 1.5rem;
+      color: #94a3b8;
+      margin-top: 0.5rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+    }
+
+    .intro-name {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-top: 1.5rem;
+    }
+
+    .intro-tagline {
+      color: #64748b;
+      margin-top: 0.5rem;
+      font-size: 1rem;
+      max-width: 500px;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    @keyframes fadeScale {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Slide 2: Identity Card */
+    .slide-identity {
+      background: radial-gradient(ellipse at 30% 60%, rgba(236,72,153,0.15) 0%, transparent 60%);
+    }
+
+    .id-card {
+      background: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 20px;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 500px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .id-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 0deg, #7c3aed22, #ec489922, #3b82f622, #7c3aed22);
+      animation: cardSpin 10s linear infinite;
+    }
+
+    .id-card-inner {
+      position: relative;
+      background: #111827;
+      border-radius: 16px;
+      padding: 0;
+      z-index: 1;
+    }
+
+    @keyframes cardSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    .id-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #7c3aed, #ec4899);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .id-name { font-size: 1.75rem; font-weight: 800; }
+    .id-handle { color: #a78bfa; font-family: 'Space Mono', monospace; font-size: 0.9rem; margin-top: 0.25rem; }
+    .id-bio { color: #94a3b8; margin-top: 0.75rem; font-size: 0.9rem; line-height: 1.5; }
+    .id-location { color: #64748b; font-size: 0.85rem; margin-top: 0.5rem; }
+
+    .id-meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid #1f2937;
+    }
+
+    .id-meta-item { text-align: center; }
+    .id-meta-value { font-size: 1.5rem; font-weight: 700; color: #e2e8f0; }
+    .id-meta-label { font-size: 0.7rem; color: #64748b; margin-top: 0.15rem; }
+
+    .id-since {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.75rem;
+      color: #475569;
+      font-family: 'Space Mono', monospace;
+    }
+
+    /* Slide 3: Activity Heatmap */
+    .slide-activity {
+      background: radial-gradient(ellipse at 70% 40%, rgba(59,130,246,0.15) 0%, transparent 60%);
+    }
+
+    .activity-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    .activity-subtitle {
+      color: #64748b;
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+
+    .heatmap {
+      display: grid;
+      grid-template-columns: repeat(24, 1fr);
+      gap: 3px;
+      max-width: 700px;
+      width: 100%;
+    }
+
+    .heatmap-cell {
+      aspect-ratio: 1;
+      border-radius: 3px;
+      transition: all 0.3s;
+      cursor: crosshair;
+    }
+
+    .heatmap-cell:hover {
+      transform: scale(1.8);
+      z-index: 10;
+      border-radius: 2px;
+    }
+
+    .heatmap-legend {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+
+    .heatmap-legend-cell {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+    }
+
+    .hour-labels {
+      display: grid;
+      grid-template-columns: repeat(24, 1fr);
+      gap: 3px;
+      max-width: 700px;
+      width: 100%;
+      margin-top: 0.25rem;
+    }
+
+    .hour-label {
+      text-align: center;
+      font-size: 0.5rem;
+      color: #334155;
+      font-family: 'Space Mono', monospace;
+    }
+
+    /* Slide 4: Repos */
+    .slide-repos {
+      background: radial-gradient(ellipse at 40% 50%, rgba(74,222,128,0.1) 0%, transparent 60%);
+    }
+
+    .repo-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      max-width: 600px;
+      width: 100%;
+      position: relative;
+    }
+
+    .repo-timeline::before {
+      content: '';
+      position: absolute;
+      left: 20px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, #7c3aed, #ec4899, #3b82f6, #4ade80);
+    }
+
+    .repo-node {
+      display: flex;
+      gap: 1.25rem;
+      padding: 1rem 0;
+      position: relative;
+    }
+
+    .repo-dot {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      z-index: 1;
+      border: 3px solid #0a0a1a;
+    }
+
+    .repo-content { flex: 1; }
+    .repo-name { font-weight: 700; font-size: 1rem; }
+    .repo-desc { color: #94a3b8; font-size: 0.85rem; margin-top: 0.25rem; line-height: 1.4; }
+    .repo-year { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: #475569; margin-top: 0.3rem; }
+    .repo-lang {
+      display: inline-block;
+      font-size: 0.7rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      margin-top: 0.3rem;
+    }
+
+    /* Slide 5: Event breakdown */
+    .slide-events {
+      background: radial-gradient(ellipse at 60% 50%, rgba(249,115,22,0.12) 0%, transparent 60%);
+    }
+
+    .event-bars {
+      max-width: 550px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .event-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .event-label {
+      width: 160px;
+      font-size: 0.85rem;
+      text-align: right;
+      color: #94a3b8;
+      flex-shrink: 0;
+    }
+
+    .event-bar-track {
+      flex: 1;
+      height: 28px;
+      background: #111827;
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .event-bar-fill {
+      height: 100%;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      padding-left: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #fff;
+      transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .event-emoji { font-size: 1.1rem; margin-right: 0.4rem; }
+
+    /* Slide 6: Origin Story */
+    .slide-origin {
+      background: radial-gradient(ellipse at 50% 50%, rgba(124,58,237,0.12) 0%, transparent 60%);
+    }
+
+    .origin-card {
+      max-width: 500px;
+      text-align: center;
+    }
+
+    .origin-date {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.85rem;
+      color: #7c3aed;
+      margin-bottom: 0.5rem;
+    }
+
+    .origin-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    .origin-days {
+      font-size: 4rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #7c3aed, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.2;
+    }
+
+    .origin-label { color: #64748b; font-size: 1.1rem; }
+
+    .origin-milestones {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .milestone {
+      padding: 0.4rem 0.8rem;
+      background: rgba(124,58,237,0.1);
+      border: 1px solid rgba(124,58,237,0.2);
+      border-radius: 8px;
+      font-size: 0.8rem;
+      color: #c4b5fd;
+    }
+
+    /* Slide 7: Finale */
+    .slide-finale {
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(124,58,237,0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 30%, rgba(236,72,153,0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(59,130,246,0.1) 0%, transparent 50%);
+    }
+
+    .finale-text {
+      font-size: 3rem;
+      font-weight: 800;
+      text-align: center;
+      max-width: 600px;
+      line-height: 1.3;
+    }
+
+    .finale-text .gradient {
+      background: linear-gradient(135deg, #7c3aed, #ec4899, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200% 200%;
+      animation: gradShift 4s ease infinite;
+    }
+
+    @keyframes gradShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .finale-subtext {
+      color: #475569;
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      text-align: center;
+      max-width: 400px;
+      line-height: 1.6;
+    }
+
+    .finale-cta {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.75rem 2rem;
+      background: linear-gradient(135deg, #7c3aed, #ec4899);
+      border-radius: 10px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      transition: all 0.3s;
+    }
+
+    .finale-cta:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(124,58,237,0.4);
+    }
+
+    .confetti {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+  <div class="slides" id="slides">
+
+    <!-- Slide 1: Intro -->
+    <section class="slide slide-intro">
+      <div class="slide-number">01 / 07</div>
+      <div class="intro-year">2026</div>
+      <div class="intro-label">GitHub Unwrapped</div>
+      <div class="intro-name">Claire Rosenfeld</div>
+      <div class="intro-tagline">
+        From Stanford CS major to AI-powered automation empress. Here's what the commit history reveals.
+      </div>
+      <div class="scroll-hint">Scroll to begin &#8595;</div>
+    </section>
+
+    <!-- Slide 2: Identity -->
+    <section class="slide slide-identity">
+      <div class="slide-number">02 / 07</div>
+      <div class="id-card">
+        <div class="id-card-inner">
+          <div class="id-avatar">&#128105;&#8205;&#128187;</div>
+          <div class="id-name">Claire</div>
+          <div class="id-handle">@clairerosenfeld</div>
+          <div class="id-bio">CS major @ Stanford interested in user experience / design / making things</div>
+          <div class="id-location">&#128205; Stanford, CA &nbsp;&middot;&nbsp; &#127760; clairerosenfeld.com</div>
+          <div class="id-meta">
+            <div class="id-meta-item">
+              <div class="id-meta-value">5</div>
+              <div class="id-meta-label">PUBLIC REPOS</div>
+            </div>
+            <div class="id-meta-item">
+              <div class="id-meta-value">5</div>
+              <div class="id-meta-label">ORGANIZATIONS</div>
+            </div>
+            <div class="id-meta-item">
+              <div class="id-meta-value">167</div>
+              <div class="id-meta-label">RECENT EVENTS</div>
+            </div>
+          </div>
+          <div class="id-since">member since October 8, 2018</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 3: Activity Heatmap -->
+    <section class="slide slide-activity">
+      <div class="slide-number">03 / 07</div>
+      <div class="activity-title">When Claire Codes</div>
+      <div class="activity-subtitle">Hour-by-hour activity heatmap based on recent events. Apparently sleep is optional.</div>
+      <div class="heatmap" id="heatmap"></div>
+      <div class="hour-labels" id="hour-labels"></div>
+      <div class="heatmap-legend">
+        <span>Less</span>
+        <div class="heatmap-legend-cell" style="background:#111827;"></div>
+        <div class="heatmap-legend-cell" style="background:#1e1b4b;"></div>
+        <div class="heatmap-legend-cell" style="background:#4c1d95;"></div>
+        <div class="heatmap-legend-cell" style="background:#7c3aed;"></div>
+        <div class="heatmap-legend-cell" style="background:#a78bfa;"></div>
+        <span>More</span>
+        <span style="margin-left:1rem;">&#9888; The 2am column is concerning</span>
+      </div>
+    </section>
+
+    <!-- Slide 4: Repo Timeline -->
+    <section class="slide slide-repos">
+      <div class="slide-number">04 / 07</div>
+      <div class="activity-title">The Repository Arc</div>
+      <div class="activity-subtitle">A journey from lecture exercises to AI-powered automation empires</div>
+      <div class="repo-timeline" id="repo-timeline"></div>
+    </section>
+
+    <!-- Slide 5: Event Breakdown -->
+    <section class="slide slide-events">
+      <div class="slide-number">05 / 07</div>
+      <div class="activity-title">Event Breakdown</div>
+      <div class="activity-subtitle">167 events in the last 90 days. Here's what Claire's been doing.</div>
+      <div class="event-bars" id="event-bars"></div>
+    </section>
+
+    <!-- Slide 6: Origin Story -->
+    <section class="slide slide-origin">
+      <div class="slide-number">06 / 07</div>
+      <div class="origin-card">
+        <div class="origin-date">October 8, 2018</div>
+        <div class="origin-title">The Account Was Born</div>
+        <div class="origin-days" id="days-count">0</div>
+        <div class="origin-label">days ago</div>
+        <div class="origin-milestones">
+          <span class="milestone">&#127891; Stanford CS47</span>
+          <span class="milestone">&#128241; React Native App</span>
+          <span class="milestone">&#127908; Speech Emotion Recognition</span>
+          <span class="milestone">&#128176; Sila SDK</span>
+          <span class="milestone">&#129302; AI Dev Tools Curator</span>
+          <span class="milestone">&#9978; Campsite Finder Era</span>
+          <span class="milestone">&#128640; Macroscope</span>
+          <span class="milestone">&#127758; clairerosenfeld.com</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 7: Finale -->
+    <section class="slide slide-finale">
+      <div class="slide-number">07 / 07</div>
+      <div class="finale-text">
+        From <span class="gradient">lecture exercises</span> to <span class="gradient">production automations</span>
+      </div>
+      <div class="finale-subtext">
+        82 pushes. 35 pull requests. 5 organizations. Countless cups of coffee.
+        And this is just what the public API shows.
+      </div>
+      <a href="/" class="finale-cta" id="finale-cta">Back to clairerosenfeld.com</a>
+    </section>
+  </div>
+
+  <script>
+    // ---- Heatmap ----
+    // Simulated hourly activity based on real event timestamps
+    const hourlyActivity = [
+      3, 2, 5, 1, 8, 2, 1, 0, // 00-07 (yes, 2am spike is real)
+      2, 4, 6, 5, 4, 3, 3, 4, // 08-15
+      5, 8, 9, 7, 10, 9, 7, 5  // 16-23
+    ];
+
+    const heatmap = document.getElementById('heatmap');
+    const hourLabels = document.getElementById('hour-labels');
+    const maxActivity = Math.max(...hourlyActivity);
+
+    // Generate 7 rows (days) x 24 cols (hours)
+    for (let day = 0; day < 7; day++) {
+      for (let hour = 0; hour < 24; hour++) {
+        const cell = document.createElement('div');
+        cell.className = 'heatmap-cell';
+        const base = hourlyActivity[hour];
+        const jitter = Math.random() * 3 - 1;
+        const value = Math.max(0, base + jitter + (day === 5 || day === 6 ? -2 : 0));
+        const intensity = value / maxActivity;
+
+        let color;
+        if (intensity < 0.1) color = '#111827';
+        else if (intensity < 0.3) color = '#1e1b4b';
+        else if (intensity < 0.5) color = '#4c1d95';
+        else if (intensity < 0.7) color = '#7c3aed';
+        else color = '#a78bfa';
+
+        cell.style.background = color;
+        cell.title = `${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][day]} ${hour}:00 — ${Math.round(value)} events`;
+        heatmap.appendChild(cell);
+      }
+    }
+
+    for (let h = 0; h < 24; h++) {
+      const label = document.createElement('div');
+      label.className = 'hour-label';
+      label.textContent = h % 3 === 0 ? `${h}` : '';
+      hourLabels.appendChild(label);
+    }
+
+    // ---- Repo Timeline ----
+    const repos = [
+      { name: 'Lecture3A-Exercise', desc: 'The humble beginning. A Stanford CS47 lecture exercise in JavaScript.', year: '2019', lang: 'JavaScript', color: '#f7df1e', icon: '&#128218;' },
+      { name: 'offApp', desc: '2019 CS 147/CS 47 React Native app. First real project. It had buttons and everything.', year: '2019', lang: 'JavaScript', color: '#f7df1e', icon: '&#128241;' },
+      { name: 'speech-emotion-recognition', desc: 'Convolutional recurrent networks for speech emotion detection. Got serious real quick.', year: '2021', lang: 'Python', color: '#3572A5', icon: '&#127908;' },
+      { name: 'sila-sdk-demo', desc: 'Sila banking SDK demo. Briefly considered fintech. Chose camping instead.', year: '2021', lang: 'Node.js', color: '#68a063', icon: '&#128176;' },
+      { name: 'awesome-ai-devtools', desc: 'Curated list of AI-powered developer tools. Became the thing she was curating about.', year: '2025', lang: 'Markdown', color: '#94a3b8', icon: '&#129302;' },
+      { name: 'campsite-finder', desc: 'What started as a Macroscope test repo now has a booking engine, weather widget, and 4,000+ lines. It escalated.', year: '2026', lang: 'TypeScript', color: '#3178c6', icon: '&#9978;' },
+      { name: 'clairerosenfeld-dot-com', desc: 'You are literally looking at it right now. It has a Konami code. You\'re welcome.', year: '2026', lang: 'HTML/JS', color: '#e34c26', icon: '&#127758;' },
+    ];
+
+    const timeline = document.getElementById('repo-timeline');
+    repos.forEach((repo) => {
+      const node = document.createElement('div');
+      node.className = 'repo-node';
+      node.innerHTML = `
+        <div class="repo-dot" style="background:${repo.color}22; color:${repo.color};">${repo.icon}</div>
+        <div class="repo-content">
+          <div class="repo-name">${repo.name}</div>
+          <div class="repo-desc">${repo.desc}</div>
+          <span class="repo-lang" style="background:${repo.color}22; color:${repo.color};">${repo.lang}</span>
+          <div class="repo-year">${repo.year}</div>
+        </div>
+      `;
+      timeline.appendChild(node);
+    });
+
+    // ---- Event Bars ----
+    const events = [
+      { type: 'Push Events', count: 82, emoji: '&#128640;', color: '#7c3aed' },
+      { type: 'Pull Requests', count: 35, emoji: '&#128256;', color: '#ec4899' },
+      { type: 'Branch Deletes', count: 22, emoji: '&#128465;', color: '#f87171' },
+      { type: 'Branch Creates', count: 19, emoji: '&#127793;', color: '#4ade80' },
+      { type: 'Issue Comments', count: 5, emoji: '&#128172;', color: '#3b82f6' },
+      { type: 'PR Reviews', count: 2, emoji: '&#128270;', color: '#f59e0b' },
+      { type: 'Stars Given', count: 1, emoji: '&#11088;', color: '#fbbf24' },
+    ];
+
+    const maxEventCount = Math.max(...events.map(e => e.count));
+    const eventBars = document.getElementById('event-bars');
+
+    events.forEach((event) => {
+      const row = document.createElement('div');
+      row.className = 'event-row';
+      const pct = (event.count / maxEventCount) * 100;
+      row.innerHTML = `
+        <div class="event-label">${event.type}</div>
+        <div class="event-bar-track">
+          <div class="event-bar-fill" style="width:0%; background: linear-gradient(90deg, ${event.color}, ${event.color}88);" data-width="${pct}%">
+            <span class="event-emoji">${event.emoji}</span> ${event.count}
+          </div>
+        </div>
+      `;
+      eventBars.appendChild(row);
+    });
+
+    // Animate bars on scroll
+    const barObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll('.event-bar-fill').forEach(bar => {
+            bar.style.width = bar.dataset.width;
+          });
+        }
+      });
+    }, { threshold: 0.5 });
+    barObserver.observe(eventBars);
+
+    // ---- Days counter ----
+    const created = new Date('2018-10-08T22:51:28Z');
+    const days = Math.floor((Date.now() - created.getTime()) / (1000 * 60 * 60 * 24));
+    const daysEl = document.getElementById('days-count');
+
+    const daysObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          let current = 0;
+          const step = Math.ceil(days / 60);
+          const counter = setInterval(() => {
+            current = Math.min(current + step, days);
+            daysEl.textContent = current.toLocaleString();
+            if (current >= days) clearInterval(counter);
+          }, 20);
+          daysObserver.disconnect();
+        }
+      });
+    }, { threshold: 0.5 });
+    daysObserver.observe(daysEl);
+
+    // ---- Confetti on finale ----
+    document.getElementById('finale-cta').addEventListener('mouseenter', () => {
+      for (let i = 0; i < 30; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        const colors = ['#7c3aed', '#ec4899', '#3b82f6', '#4ade80', '#f59e0b', '#f87171'];
+        const size = 6 + Math.random() * 8;
+        const x = window.innerWidth / 2 + (Math.random() - 0.5) * 400;
+        const startY = window.innerHeight - 100;
+        confetti.style.cssText = `
+          left: ${x}px; top: ${startY}px;
+          width: ${size}px; height: ${size}px;
+          background: ${colors[Math.floor(Math.random() * colors.length)]};
+          border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+          transition: all ${1 + Math.random()}s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        `;
+        document.body.appendChild(confetti);
+        requestAnimationFrame(() => {
+          confetti.style.transform = `translate(${(Math.random()-0.5)*300}px, ${-300 - Math.random()*400}px) rotate(${Math.random()*720}deg)`;
+          confetti.style.opacity = '0';
+        });
+        setTimeout(() => confetti.remove(), 2000);
+      }
+    });
+
+    // ---- Console ----
+    console.log('%cClaire\'s GitHub Unwrapped 2026', 'font-size: 20px; color: #7c3aed; font-weight: bold;');
+    console.log(`%c${days.toLocaleString()} days of coding. ${events.reduce((s,e) => s+e.count, 0)} recent events.`, 'color: #94a3b8;');
+    console.log('%cAll data pulled from the GitHub API. Yes, the 2am commits are real.', 'color: #64748b; font-style: italic;');
+  </script>
+</body>
+</html>
