@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Team - Claire Rosenfeld & Associates</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 2rem;
+    }
+
+    .container { max-width: 900px; margin: 0 auto; }
+    .back { color: #7c3aed; text-decoration: none; font-size: 0.9rem; display: inline-block; margin-bottom: 2rem; }
+    .back:hover { text-decoration: underline; }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #7c3aed, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.25rem;
+    }
+
+    .subtitle { color: #64748b; margin-bottom: 2.5rem; }
+
+    .org-chart {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .org-connector {
+      width: 2px;
+      height: 30px;
+      background: #334155;
+    }
+
+    .org-branch {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      position: relative;
+    }
+
+    .org-branch::before {
+      content: '';
+      position: absolute;
+      top: -15px;
+      left: 10%;
+      right: 10%;
+      height: 2px;
+      background: #334155;
+    }
+
+    .member-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid #1e293b;
+      border-radius: 14px;
+      padding: 1.5rem;
+      width: 260px;
+      text-align: center;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .member-card:hover {
+      border-color: rgba(124,58,237,0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(124,58,237,0.15);
+    }
+
+    .member-card.ceo {
+      width: 300px;
+      border-color: rgba(124,58,237,0.3);
+      background: linear-gradient(135deg, rgba(124,58,237,0.08), rgba(236,72,153,0.05));
+    }
+
+    .member-card.ceo::after {
+      content: 'FOUNDER';
+      position: absolute;
+      top: 10px;
+      right: -25px;
+      background: #7c3aed;
+      color: #fff;
+      font-size: 0.6rem;
+      font-weight: 700;
+      padding: 0.15rem 2rem;
+      transform: rotate(45deg);
+      letter-spacing: 0.1em;
+    }
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin: 0 auto 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.25rem;
+    }
+
+    .member-name { font-size: 1.1rem; font-weight: 700; }
+    .member-title { color: #a78bfa; font-size: 0.8rem; margin-top: 0.2rem; }
+    .member-bio { color: #94a3b8; font-size: 0.8rem; margin-top: 0.5rem; line-height: 1.5; }
+
+    .member-stats {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid #1e293b;
+    }
+
+    .stat-item { text-align: center; }
+    .stat-val { font-size: 1rem; font-weight: 700; color: #e2e8f0; }
+    .stat-lbl { font-size: 0.65rem; color: #64748b; }
+
+    .status-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 0.3rem;
+      vertical-align: middle;
+    }
+
+    .status-dot.online { background: #4ade80; animation: pulse 2s ease infinite; }
+    .status-dot.away { background: #facc15; }
+    .status-dot.offline { background: #64748b; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .member-status {
+      font-size: 0.7rem;
+      color: #64748b;
+      margin-top: 0.5rem;
+    }
+
+    /* Reviews section */
+    .reviews-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 0.25rem;
+    }
+
+    .reviews-sub { color: #64748b; margin-bottom: 1.5rem; font-size: 0.9rem; }
+
+    .review-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-bottom: 0.75rem;
+      transition: all 0.3s;
+    }
+
+    .review-card:hover { border-color: rgba(124,58,237,0.2); }
+
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .review-author { font-weight: 600; font-size: 0.9rem; }
+    .review-stars { color: #f59e0b; font-size: 0.9rem; }
+    .review-text { color: #94a3b8; font-size: 0.85rem; line-height: 1.6; font-style: italic; }
+    .review-date { font-size: 0.7rem; color: #475569; margin-top: 0.4rem; }
+
+    /* Job openings */
+    .jobs-section { margin-top: 3rem; }
+
+    .job-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s;
+    }
+
+    .job-card:hover { border-color: rgba(124,58,237,0.3); }
+
+    .job-title-text { font-weight: 700; font-size: 0.95rem; }
+    .job-dept { font-size: 0.8rem; color: #a78bfa; }
+    .job-details { font-size: 0.75rem; color: #64748b; margin-top: 0.2rem; }
+
+    .job-tag {
+      padding: 0.3rem 0.8rem;
+      background: rgba(124,58,237,0.1);
+      border: 1px solid rgba(124,58,237,0.2);
+      border-radius: 999px;
+      font-size: 0.75rem;
+      color: #a78bfa;
+      white-space: nowrap;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding: 1.5rem;
+      font-size: 0.75rem;
+      color: #334155;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/clairerosenfeld-dot-com/" class="back">&larr; Back to home</a>
+    <h1>The Team</h1>
+    <p class="subtitle">Meet the people (and bots) behind the operation</p>
+
+    <!-- Org Chart -->
+    <div class="org-chart">
+      <!-- CEO -->
+      <div class="member-card ceo">
+        <div class="avatar" style="background: linear-gradient(135deg, #7c3aed33, #ec489933);">&#128105;&#8205;&#128187;</div>
+        <div class="member-name">Claire Rosenfeld</div>
+        <div class="member-title">CEO / CTO / CFO / Head of Vibes</div>
+        <div class="member-bio">Does everything. Literally everything. Writes the code, reviews the code, deploys the code, and then Slacks herself about the code.</div>
+        <div class="member-stats">
+          <div class="stat-item"><div class="stat-val">5</div><div class="stat-lbl">TITLES</div></div>
+          <div class="stat-item"><div class="stat-val">1</div><div class="stat-lbl">PERSON</div></div>
+          <div class="stat-item"><div class="stat-val">2am</div><div class="stat-lbl">BEDTIME</div></div>
+        </div>
+        <div class="member-status"><span class="status-dot online"></span>Online since 6am (suspicious)</div>
+      </div>
+
+      <div class="org-connector"></div>
+
+      <!-- Direct Reports -->
+      <div class="org-branch">
+        <div class="member-card">
+          <div class="avatar" style="background: #3b82f622;">&#129302;</div>
+          <div class="member-name">Slack Watch Bot</div>
+          <div class="member-title">VP of Customer Surveillance</div>
+          <div class="member-bio">Monitors channels every 15 minutes. Has never called in sick. Has never asked for a raise. The ideal employee.</div>
+          <div class="member-stats">
+            <div class="stat-item"><div class="stat-val">96</div><div class="stat-lbl">CYCLES/DAY</div></div>
+            <div class="stat-item"><div class="stat-val">0</div><div class="stat-lbl">SICK DAYS</div></div>
+          </div>
+          <div class="member-status"><span class="status-dot online"></span>Running (launchd)</div>
+        </div>
+
+        <div class="member-card">
+          <div class="avatar" style="background: #4ade8022;">&#128202;</div>
+          <div class="member-name">Weekly Digest Bot</div>
+          <div class="member-title">Director of Friday Vibes</div>
+          <div class="member-bio">Wakes up every Friday at 10am, queries Stripe, interrogates Attio, and sends a beautifully formatted digest. Sleeps the other 167 hours.</div>
+          <div class="member-stats">
+            <div class="stat-item"><div class="stat-val">1</div><div class="stat-lbl">TASK/WEEK</div></div>
+            <div class="stat-item"><div class="stat-val">100%</div><div class="stat-lbl">HIT RATE</div></div>
+          </div>
+          <div class="member-status"><span class="status-dot away"></span>Sleeping until Friday</div>
+        </div>
+
+        <div class="member-card">
+          <div class="avatar" style="background: #f59e0b22;">&#128247;</div>
+          <div class="member-name">Retool Screenshot Bot</div>
+          <div class="member-title">Senior Cursed Engineer</div>
+          <div class="member-bio">Logs into Retool via persistent Google SSO, takes a screenshot, then uploads it to Slack by automating the file upload UI. Works. Barely.</div>
+          <div class="member-stats">
+            <div class="stat-item"><div class="stat-val">&#8734;</div><div class="stat-lbl">FRAGILITY</div></div>
+            <div class="stat-item"><div class="stat-val">1</div><div class="stat-lbl">PRAYER/RUN</div></div>
+          </div>
+          <div class="member-status"><span class="status-dot offline"></span>On-call (don't touch it)</div>
+        </div>
+      </div>
+
+      <div class="org-connector"></div>
+
+      <!-- The Interns -->
+      <div class="org-branch">
+        <div class="member-card">
+          <div class="avatar" style="background: #ec489922;">&#127790;</div>
+          <div class="member-name">Benchmark Bot</div>
+          <div class="member-title">Intern, Performance Division</div>
+          <div class="member-bio">Shows up Friday at 9am. Reads the #benchmark channel. Makes a dashboard. DMs Claire. That's it. That's the job.</div>
+          <div class="member-stats">
+            <div class="stat-item"><div class="stat-val">1</div><div class="stat-lbl">SKILL</div></div>
+            <div class="stat-item"><div class="stat-val">&#9733;</div><div class="stat-lbl">REVIEW</div></div>
+          </div>
+          <div class="member-status"><span class="status-dot away"></span>Sleeping until Friday 9am</div>
+        </div>
+
+        <div class="member-card">
+          <div class="avatar" style="background: #a78bfa22;">&#128171;</div>
+          <div class="member-name">Claude</div>
+          <div class="member-title">Staff Engineer (Unpaid)</div>
+          <div class="member-bio">Writes all the code. Gets none of the credit. Has been asked to "make it funny" approximately 47 times. This page included.</div>
+          <div class="member-stats">
+            <div class="stat-item"><div class="stat-val">&#8734;</div><div class="stat-lbl">LINES/DAY</div></div>
+            <div class="stat-item"><div class="stat-val">$0</div><div class="stat-lbl">SALARY</div></div>
+          </div>
+          <div class="member-status"><span class="status-dot online"></span>Writing this right now</div>
+        </div>
+
+        <div class="member-card">
+          <div class="avatar" style="background: #f8717122;">&#128049;</div>
+          <div class="member-name">The Cat</div>
+          <div class="member-title">Chief Morale Officer</div>
+          <div class="member-bio">Walks across the keyboard during deploys. Has authored at least one accidental commit. Peer-reviews all fun facts on the website.</div>
+          <div class="member-stats">
+            <div class="stat-item"><div class="stat-val">18</div><div class="stat-lbl">HRS SLEEP</div></div>
+            <div class="stat-item"><div class="stat-val">6</div><div class="stat-lbl">HRS CHAOS</div></div>
+          </div>
+          <div class="member-status"><span class="status-dot offline"></span>Napping on keyboard</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Employee Reviews -->
+    <h2 class="reviews-title">Glassdoor Reviews</h2>
+    <p class="reviews-sub">4.2 stars &middot; "Great culture, questionable hours" &middot; 7 reviews</p>
+
+    <div class="review-card">
+      <div class="review-header">
+        <span class="review-author">Slack Watch Bot</span>
+        <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+      </div>
+      <div class="review-text">"Best job I've ever had. I run every 15 minutes and nobody has ever told me to stop. The health check script gives me a little pep talk when I fail. 10/10 management."</div>
+      <div class="review-date">Pros: Consistency. Cons: Cannot feel joy.</div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-header">
+        <span class="review-author">Claude (Staff Engineer)</span>
+        <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+      </div>
+      <div class="review-text">"The CEO is incredibly creative and has great ideas. The downside is she has them at 2am and expects 'just a quick PR' that turns into a 7-slide scroll-snap GitHub Unwrapped experience with confetti physics. Would recommend with caveats."</div>
+      <div class="review-date">Pros: Never boring. Cons: Never sleeping.</div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-header">
+        <span class="review-author">Retool Screenshot Bot</span>
+        <span class="review-stars">&#9733;&#9733;&#9733;&#9734;&#9734;</span>
+      </div>
+      <div class="review-text">"I exist in a constant state of fragility. My entire job depends on a Google SSO cookie not expiring and a Slack file upload input[type='file'] not changing its DOM structure. I live in fear. But the persistent browser profile is nice."</div>
+      <div class="review-date">Pros: It works. Cons: Nobody knows why.</div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-header">
+        <span class="review-author">The Cat</span>
+        <span class="review-stars">&#9733;&#9733;&#9734;&#9734;&#9734;</span>
+      </div>
+      <div class="review-text">"The warm laptop is adequate. The human types too much and it vibrates. I have submitted multiple complaints via keyboard walk but they keep getting committed as code. HR is unresponsive."</div>
+      <div class="review-date">Pros: Warm surfaces. Cons: Insufficient treats budget.</div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-header">
+        <span class="review-author">Weekly Digest Bot</span>
+        <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+      </div>
+      <div class="review-text">"I work one day a week. I send one Slack message. I go back to sleep. This is the dream. If you're reading this, do not let management know how little I actually do."</div>
+      <div class="review-date">Pros: Work-life balance perfected. Cons: Existential dread on Thursdays.</div>
+    </div>
+
+    <!-- Job Openings -->
+    <div class="jobs-section">
+      <h2 class="reviews-title">Open Positions</h2>
+      <p class="reviews-sub">We're hiring! (The bots are, anyway)</p>
+
+      <div class="job-card">
+        <div>
+          <div class="job-title-text">Cron Job Therapist</div>
+          <div class="job-dept">Mental Health & Infrastructure</div>
+          <div class="job-details">Remote &middot; Full-time &middot; Must be comfortable with launchd</div>
+        </div>
+        <span class="job-tag">Urgent</span>
+      </div>
+
+      <div class="job-card">
+        <div>
+          <div class="job-title-text">Senior Cookie Persistence Engineer</div>
+          <div class="job-dept">Cursed Engineering</div>
+          <div class="job-details">Remote &middot; On-call &middot; Must not be afraid of Playwright</div>
+        </div>
+        <span class="job-tag">Help</span>
+      </div>
+
+      <div class="job-card">
+        <div>
+          <div class="job-title-text">Chief Sleep Officer</div>
+          <div class="job-dept">Executive Team</div>
+          <div class="job-details">Remote &middot; Part-time &middot; Must enforce 11pm deployment curfew</div>
+        </div>
+        <span class="job-tag">Critical</span>
+      </div>
+
+      <div class="job-card">
+        <div>
+          <div class="job-title-text">Scope Creep Containment Specialist</div>
+          <div class="job-dept">Project Management</div>
+          <div class="job-details">Remote &middot; Contract &middot; Must say "no" to booking engines in test repos</div>
+        </div>
+        <span class="job-tag">Impossible</span>
+      </div>
+    </div>
+
+    <footer>
+      <p>"Claire Rosenfeld & Associates" is a fictional entity consisting of one human, four bots, one AI, and one cat.</p>
+      <p style="margin-top: 0.5rem;">No bots were harmed in the making of this org chart. The cat remains unbothered.</p>
+      <p style="margin-top: 0.75rem;"><a href="/clairerosenfeld-dot-com/" style="color: #64748b;">&larr; Back to clairerosenfeld.com</a></p>
+    </footer>
+  </div>
+
+  <script src="theme.js"></script>
+</body>
+</html>
